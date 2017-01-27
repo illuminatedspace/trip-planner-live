@@ -4,6 +4,8 @@ const models = require('./models/model');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
+const db = require('./models/model').db;
+const nunjucks = require('nunjucks');
 
 
 
@@ -34,7 +36,7 @@ app.use(function(err, req, res, next){
   res.send(err.status)
 });
 
-models.sync({})
+models.db.sync({})
   .then(function(){
     app.listen(3000 ,function(){
   console.log('Server listening on port 3000!');
