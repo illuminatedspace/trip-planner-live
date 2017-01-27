@@ -9,14 +9,32 @@
   </form>
   <hr>
   <ul class="list-unstyled">
-    <ul>
-
+    <label for="hotels">Hotel Name</label>
+    <select name="hotels">
       {% for hotel in hotels %}
-      <li>
+      <option>
         {{ hotel.name }}
-      </li>
+      </option>
       {% endfor %}
+    </select>
+    <p>
 
-    </ul>
+     <label for="restaurants">Restaurants</label>
+    <select name="restaurants">
+      {% for restaurant in restaurants %}
+      <option>
+        {{ restaurant.name }}
+      </option>
+      {% endfor %}
+    </select>
+    <p>
+    <label for="activities">Activities</label>
+    <select name="activities">
+      {% for activitie in activities %}
+      <option>
+        {{ activitie.name }}
+      </option>
+      {% endfor %}
+    </select>
   </ul>
 {% endblock %}

@@ -22,8 +22,8 @@ app.use(bodyParser.json());
 
 //public static
 app.use(express.static('/public'));
-
-
+app.use('/bootstrap', express.static('./node_modules/bootstrap/dist'));
+app.use('/jquery', express.static('./node_modules/jquery/dist'));
 app.use('/', routes);
 
 
@@ -42,7 +42,7 @@ app.use(function(err, req, res, next){
   res.send(err.status)
 });
 
-models.db.sync({ force: true })
+models.db.sync()
   .then(function(){
     app.listen(3000 ,function(){
   console.log('Server listening on port 3000!');
