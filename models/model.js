@@ -1,11 +1,11 @@
 const Sequelize = require('sequelize');
 const db = new Sequelize('postgres://localhost:5432/tripplanner', {
-  logging: false
+   logging: false
 });
 
 
 //HOTEL MODEL
-var Hotel = db.define('hotel', {
+var Hotel = db.define('hotels', {
   name: {
     type: Sequelize.STRING
   },

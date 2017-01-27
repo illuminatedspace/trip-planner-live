@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <h3>Trip Stuff</h3>
+  <hr>
+  <form method="GET" action="/">
+    <input type="text" name="search" />
+    <button type="submit">Search</button>
+  </form>
+  <hr>
+  <ul class="list-unstyled">
+    <ul>
+
+      {% for hotel in hotels %}
+      <li>
+        {{ hotel.name }}
+      </li>
+      {% endfor %}
+
+    </ul>
+  </ul>
+{% endblock %}

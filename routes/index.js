@@ -8,18 +8,21 @@ var Activity = require('../models/model').Activities;
 
 router.get('/', function(req, res, next){
   var outerScopeContainer = {};
-  Hotel.findAll()
+  Hotel.findAll({})
   .then(function (dbHotels) {
     outerScopeContainer.dbHotels = dbHotels;
+    //console.log(outerScopeContainer);
     return Restaurant.findAll();
   })
   .then(function (dbRestaurants) {
+    console.log(dbRestaurants)
     outerScopeContainer.dbRestaurants = dbRestaurants;
     return Activity.findAll();
   })
   .then(function (dbActivities) {
+    // console.log(outerScopeContainer);
     res.render('index', {
-      templateHotels: outerScopeContainer.dbHotels,
+      hotels: outerScopeContainer.dbHotels,
       templateRestaurants: outerScopeContainer.dbRestaurants,
       templateActivities: dbActivities
     });

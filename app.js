@@ -8,6 +8,11 @@ const db = require('./models/model').db;
 const nunjucks = require('nunjucks');
 
 
+var env = nunjucks.configure('views', {noCache: true});
+// have res.render work with html files
+app.set('view engine', 'html');
+// when res.render works with html files, have it use nunjucks to do so
+app.engine('html', nunjucks.render);
 
 app.use(morgan('dev'));
 
@@ -17,6 +22,7 @@ app.use(bodyParser.json());
 
 //public static
 app.use(express.static('/public'));
+
 
 app.use('/', routes);
 
@@ -36,7 +42,7 @@ app.use(function(err, req, res, next){
   res.send(err.status)
 });
 
-models.db.sync({})
+models.db.sync({ force: true })
   .then(function(){
     app.listen(3000 ,function(){
   console.log('Server listening on port 3000!');
