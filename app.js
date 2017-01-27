@@ -34,7 +34,7 @@ app.use(function(err, req, res, next){
   res.send(err.status)
 });
 
-models.Hotel.sync({})
+models.sync({})
   .then(function(){
     app.listen(3000 ,function(){
   console.log('Server listening on port 3000!');
