@@ -1,55 +1,58 @@
-const express = require('express');
-const app = express();
-const models = require('./models/model');
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
-const routes = require('./routes');
-const db = require('./models/model').db;
-const nunjucks = require('nunjucks');
+var express = require('express');
+var volleyball = require('volleyball');
+var bodyParser = require('body-parser');
+var nunjucks = require('nunjucks');
+var path = require('path');
 
+var db = require('./models');
 
-var env = nunjucks.configure('views', {noCache: true});
-// have res.render work with html files
+var app = express();
+
+// nunjucks rendering boilerplate
+nunjucks.configure('views', { noCache: true });
 app.set('view engine', 'html');
-// when res.render works with html files, have it use nunjucks to do so
 app.engine('html', nunjucks.render);
 
-app.use(morgan('dev'));
-
-//body parser middleware
-app.use(bodyParser.urlencoded({extended: true}));
+// logging and body-parsing
+app.use(volleyball);
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-//public static
-app.use(express.static('/public'));
-app.use('/bootstrap', express.static('./node_modules/bootstrap/dist'));
-app.use('/jquery', express.static('./node_modules/jquery/dist'));
-app.use('/', routes);
+// statically serve front-end dependencies
+app.use('/bootstrap', express.static(path.join(__dirname, '/node_modules/bootstrap/dist')));
+app.use('/jquery', express.static(path.join(__dirname, '/node_modules/jquery/dist')));
 
+// serve any other static files
+app.use(express.static(path.join(__dirname, '/public')));
 
+// serve dynamic routes
+app.use(require('./routes'));
 
-//error handling middleware
-app.use(function(req, res, next){
+// failed to catch req above means 404, forward to error handler
+app.use(function (req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
-
-app.use(function(err, req, res, next){
+// handle any errors
+app.use(function (err, req, res, next) {
+  console.error(err, err.stack);
   res.status(err.status || 500);
-  console.error(err);
-  res.send(err.status)
+  res.render('error', {
+    error: err
+  });
 });
 
-models.db.sync()
-  .then(function(){
-    app.listen(3000 ,function(){
-  console.log('Server listening on port 3000!');
-    })
+// listen on a port
+var port = 3000;
+app.listen(port, function () {
+  console.log('The server is listening closely on port', port);
+  db.sync()
+  .then(function () {
+    console.log('Synchronated the database');
   })
-  .catch(console.error);
-
-
-
-
+  .catch(function (err) {
+    console.error('Trouble right here in River City', err, err.stack);
+  });
+});
