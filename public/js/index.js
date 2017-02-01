@@ -1,5 +1,18 @@
   //options for hotels
   //$('#hotel-choices').append("<option>hotels</option>")
+
+var initialItinerary = $('#itinerary');
+
+
+  //function to push hotels, activity and restaurant to array
+  var daysArray = [];
+
+  var pushToDaysArray = function(dayIndex, itinerary){
+    daysArray[dayIndex] = itinerary;
+    // console.log(daysArray)
+  }
+
+
   var option = '';
   for(var i = 0; i< hotels.length; i++){
     option += '<option value="'+ hotels[i].name +'">' + hotels[i].name +'</option>';
@@ -69,7 +82,6 @@ $('#add-activity').on('click', () => {
 });
 
 //adds event listner to remove button
-
 $("#itinerary").on('click', '.remove', function () {
   let chosenActivity = $(this).parent();
   // console.log(chosenActivity);
@@ -83,6 +95,7 @@ $("#itinerary").on('click', '.remove', function () {
   chosenActivity.remove();
 });
 
+//Cloning day button and adding it to day buttons pane
 $(".day-buttons").on('click', '#day-add', function () {
   let prevDay = $(this).prev();
   let num = parseInt(prevDay.text());
@@ -93,12 +106,29 @@ $(".day-buttons").on('click', '#day-add', function () {
   clone.removeClass('current-day');
 
   prevDay.after(clone);
+
+  //creating empty object to the daysArray
+  daysArray[num+1] = initialItinerary;;
 })
 
+//selecting day and adding class to it
 $(".day-buttons").on('click', '.day-btn', function () {
-  if ($(this).attr('id') !== 'day-add') {
+
+if ($(this).attr('id') !== 'day-add') {
+    var day = parseInt($('.current-day').text());
+    console.log(day)
+    var itinerary = $('#itinerary');
+    console.log('Itinerary',itinerary)
+    pushToDaysArray(day, itinerary[0])
+    console.log('daysArray after push:', daysArray)
+
+
     $(this).siblings().removeClass("current-day");
     $(this).addClass("current-day");
     // console.log($(this));
+    var newDay = parseInt($('.current-day').text());
+    $('#itinerary').replaceWith(daysArray[newDay])
   }
+
+
 })
