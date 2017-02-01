@@ -55,7 +55,7 @@ $('#add-activity').on('click', () => {
 
 
   //adds name and remove button to list
-  $("#itinerary .activity-list-group").append('<li>' + chosenActivity + '<button class="btn btn-xs btn-danger remove btn-circle"></button></li>');
+  $("#itinerary .activity-list-group").append('<li>' + chosenActivity + '<button class="btn btn-xs btn-danger remove btn-circle">x</button></li>');
 
   //gets coordinate for google.maps
     let coordinates;
@@ -71,14 +71,34 @@ $('#add-activity').on('click', () => {
 //adds event listner to remove button
 
 $("#itinerary").on('click', '.remove', function () {
-  let chosenActivity = $(this).parent().text();
-  console.log(chosenActivity);
-  let coordinates;
-  for (let activity of activities) {
-    if (activity.name === chosenActivity) {
-      coordinates = activity.place.location;
-    }
-  }
-  console.log(coordinates);
-  removeMarker('activity', coordinates);
+  let chosenActivity = $(this).parent();
+  // console.log(chosenActivity);
+  // let coordinates;
+  // for (let activity of activities) {
+  //   if (activity.name === chosenActivity) {
+  //     coordinates = activity.place.location;
+  //   }
+  // }
+  // removeMarker('activity', coordinates);
+  chosenActivity.remove();
 });
+
+$(".day-buttons").on('click', '#day-add', function () {
+  let prevDay = $(this).prev();
+  let num = parseInt(prevDay.text());
+
+  //might not need to be true
+  let clone = prevDay.clone( true );
+  clone.text(num + 1);
+  clone.removeClass('current-day');
+
+  prevDay.after(clone);
+})
+
+$(".day-buttons").on('click', '.day-btn', function () {
+  if ($(this).attr('id') !== 'day-add') {
+    $(this).siblings().removeClass("current-day");
+    $(this).addClass("current-day");
+    // console.log($(this));
+  }
+})

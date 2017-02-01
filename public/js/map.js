@@ -48,6 +48,8 @@ $(function initializeMap (){
     activity: '/images/star-3.png'
   };
 
+  var markers = [];
+
 globe = function drawMarker (type, coords) {
     var latLng = new google.maps.LatLng(coords[0], coords[1]);
     var iconURL = iconURLs[type];
