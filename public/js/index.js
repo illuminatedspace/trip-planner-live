@@ -12,6 +12,22 @@ var initialItinerary = $('#itinerary');
     // console.log(daysArray)
   }
 
+//given solution---------------------------------------------------------------
+// var $optionsPanel = $('#options-panel');
+// var $hotelSelect = $('#options-panel').find('#hotel-choices');
+// var $restaurantSelect = $('#options-panel').find('#hotel-choices');
+// var $activitySelect = $('#options-panel').find('#hotel-choices');
+
+// hotels.forEach(makeOption, $hotelSelect);
+// restaurants.forEach(makeOption, $restaurantSelect);
+// activities.forEach(makeOption, $activitySelect);
+
+// function makeOption (databaseAttraction) {
+//   var $option = $('<option></option>')
+//     .text(databaseAttraction.name)
+//     .val(databaseAttraction.id);
+//   this.append($option);
+// }
 
   var option = '';
   for(var i = 0; i< hotels.length; i++){
@@ -45,7 +61,7 @@ $('#add-hotel').on('click', () => {
   }
   globe('hotel', coordinates);
 });
-
+//----------------------------------------------------------------------------------------------------
 
 $('#add-restaurant').on('click', () => {
   //this is the current selection of the dropdown
